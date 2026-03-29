@@ -1,546 +1,546 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
+import Script from "next/script"
 
-export const metadata: Metadata = {
-  title: "ZiggyReviews — Turn Happy Customers Into 5-Star Reviews",
-  description:
-    "ZiggyReviews automates Google review requests via email, SMS, and QR code. Monitor every review. Respond faster. $49/mo — 84% less than Birdeye's $299/mo.",
-};
+const ACCENT = "#f59e0b"
+const SIGNUP = "https://app.ziggyreviews.com/signup"
+const LOGIN  = "https://app.ziggyreviews.com/login"
 
-const features = [
-  {
-    icon: "📧",
-    title: "Automated Review Requests",
-    desc: "Send review requests automatically after every job, purchase, or appointment via email or SMS.",
-  },
-  {
-    icon: "📱",
-    title: "QR Code Generator",
-    desc: "Generate branded QR codes for your counter, receipt, or truck. One scan → Google review.",
-  },
-  {
-    icon: "💬",
-    title: "SMS Review Requests",
-    desc: "Texting converts 3× better than email. Bring your own Twilio number (BYOK) — no markup.",
-  },
-  {
-    icon: "🔔",
-    title: "Multi-Platform Monitoring",
-    desc: "Watch Google, Yelp, and Facebook reviews in one dashboard. Never miss a new review.",
-  },
-  {
-    icon: "⚡",
-    title: "Response Templates",
-    desc: "Reply to reviews in seconds with smart templates. Faster responses = better rankings.",
-  },
-  {
-    icon: "🖼️",
-    title: "Review Embed Widget",
-    desc: "Embed your best reviews on your website automatically. Turn social proof into sales.",
-  },
-];
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "ZiggyReviews",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "url": "https://ziggyreviews.com",
+      "description": "Review management and online reputation platform for local businesses. Automate review requests, respond with AI, monitor every platform.",
+      "offers": [
+        { "@type": "Offer", "name": "Starter", "price": "29.00", "priceCurrency": "USD" },
+        { "@type": "Offer", "name": "Pro",     "price": "49.00", "priceCurrency": "USD" },
+        { "@type": "Offer", "name": "Agency",  "price": "99.00", "priceCurrency": "USD" },
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much does ZiggyReviews cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "ZiggyReviews starts at $29/mo for one location. Pro is $49/mo (3 locations, AI responses, NPS surveys). Agency is $99/mo (unlimited locations, white-label, API). All plans start with a 14-day free trial — no credit card required."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is ZiggyReviews different from Birdeye?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Birdeye charges $299/mo for features most small businesses never use. ZiggyReviews Pro covers 3 locations with AI-generated responses for $49/mo — that's 84% less. Our Agency plan at $99/mo competes directly with Birdeye's full feature set."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which review platforms does ZiggyReviews support?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Google, Yelp, Facebook, and TripAdvisor — all monitored from one dashboard. Review request campaigns can direct customers to whichever platform matters most for your business."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the 14-day free trial work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sign up and get 14 days free with full access — no credit card required. If it's not for you, just walk away. Nothing to cancel."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is ZiggyReviews HIPAA-safe for healthcare businesses?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Our Healthcare & Dental review collection flows are designed to be HIPAA-safe. We collect satisfaction data without referencing specific treatments or diagnoses."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I white-label ZiggyReviews for my agency clients?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — on the Agency plan ($99/mo). You get full white-label reporting, bulk campaigns across unlimited locations, competitor monitoring, and API access to build your own integrations."
+          }
+        }
+      ]
+    }
+  ]
+}
 
-const comparisons = [
-  { feature: "Monthly price", us: "$49", birdeye: "$299", podium: "$399" },
-  { feature: "Automated review requests", us: "✅", birdeye: "✅", podium: "✅" },
-  { feature: "SMS requests", us: "✅", birdeye: "✅", podium: "✅" },
-  { feature: "QR code generator", us: "✅", birdeye: "✅", podium: "❌" },
-  { feature: "Google/Yelp/Facebook monitoring", us: "✅", birdeye: "✅", podium: "✅" },
-  { feature: "Response templates", us: "✅", birdeye: "✅", podium: "✅" },
-  { feature: "Review embed widget", us: "✅", birdeye: "✅", podium: "❌" },
-  { feature: "Twilio BYOK (no SMS markup)", us: "✅", birdeye: "❌", podium: "❌" },
-  { feature: "No long-term contracts", us: "✅", birdeye: "❌", podium: "❌" },
-  { feature: "Setup fee", us: "$0", birdeye: "$299+", podium: "$299+" },
-];
-
-export default function HomePage() {
+export default function Home() {
   return (
     <>
-      <Nav />
+      <Script id="json-ld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* HERO */}
-      <section className="relative overflow-hidden">
-        {/* Background glow */}
-        <div
-          className="absolute inset-0 opacity-10 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse 80% 50% at 50% -20%, #f59e0b, transparent)",
-          }}
-        />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20 text-center relative">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-[#18181b] border border-[#27272a] rounded-full px-4 py-1.5 text-sm mb-8">
-            <span className="w-2 h-2 rounded-full bg-[#f59e0b] animate-pulse" />
-            <span className="text-[#a1a1aa]">
-              Birdeye charges{" "}
-              <span className="text-white font-semibold line-through">$299/mo</span>
-              . We charge{" "}
-              <span className="text-[#f59e0b] font-semibold">$49/mo</span>.
+      <style>{`@media(max-width:768px){.nav-links{display:none!important}}`}</style>
+
+      {/* ── NAV ── */}
+      <nav style={{
+        position: "sticky", top: 0, zIndex: 100,
+        background: "rgba(10,10,10,0.92)",
+        backdropFilter: "blur(12px)",
+        borderBottom: "1px solid #1f1f1f",
+        padding: "0 24px",
+      }}>
+        <div style={{ maxWidth: 1120, margin: "0 auto", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <a href="/" style={{ fontSize: 22, fontWeight: 700, color: "#fff", textDecoration: "none", letterSpacing: "-0.5px" }}>
+            Ziggy<span style={{ color: ACCENT }}>Reviews</span>
+          </a>
+
+          <div className="nav-links" style={{ display: "flex", gap: 28 }}>
+            {[["Features", "#features"], ["Compare", "/vs/birdeye"], ["Pricing", "#pricing"], ["Blog", "/blog"], ["Sign In", LOGIN]].map(([label, href]) => (
+              <a key={label} href={href} style={{ color: "#888", fontSize: 15, textDecoration: "none", fontWeight: 500 }}>{label}</a>
+            ))}
+          </div>
+
+          <a href={SIGNUP} style={{
+            background: ACCENT, color: "#000", textDecoration: "none",
+            padding: "9px 20px", borderRadius: 8, fontSize: 14, fontWeight: 700, whiteSpace: "nowrap",
+          }}>
+            Start Free Trial
+          </a>
+        </div>
+      </nav>
+
+      {/* ── HERO ── */}
+      <section style={{ padding: "100px 24px 80px", textAlign: "center", maxWidth: 820, margin: "0 auto" }}>
+        <div style={{
+          display: "inline-block",
+          background: `rgba(245,158,11,0.1)`, border: `1px solid rgba(245,158,11,0.25)`,
+          borderRadius: 99, padding: "6px 16px", fontSize: 13, color: ACCENT, fontWeight: 600,
+          marginBottom: 28, letterSpacing: "0.02em",
+        }}>
+          Birdeye Alternative · 84% less at $49/mo
+        </div>
+
+        <h1 style={{
+          fontSize: "clamp(42px,6vw,68px)", fontWeight: 700, lineHeight: 1.08,
+          letterSpacing: "-1.5px", marginBottom: 24, color: "#fff",
+        }}>
+          More 5-star reviews.<br />
+          <span style={{
+            background: `linear-gradient(135deg,#fff 0%,${ACCENT} 100%)`,
+            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+          }}>Less effort.</span>
+        </h1>
+
+        <p style={{ fontSize: 19, color: "#888", lineHeight: 1.6, marginBottom: 40, maxWidth: 600, margin: "0 auto 40px" }}>
+          Automated review request campaigns, AI-generated responses, and multi-platform monitoring — all from one dashboard.{" "}
+          <strong style={{ color: "#fff" }}>Starting at $29/mo.</strong>
+        </p>
+
+        <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", marginBottom: 24 }}>
+          <a href={SIGNUP} style={{
+            background: ACCENT, color: "#000", textDecoration: "none",
+            padding: "15px 30px", borderRadius: 10, fontSize: 16, fontWeight: 700,
+          }}>
+            Start Free Trial — 14 days free
+          </a>
+          <a href="#pricing" style={{
+            background: "transparent", color: "#fff", textDecoration: "none",
+            padding: "15px 30px", borderRadius: 10, fontSize: 16, fontWeight: 600, border: "1px solid #333",
+          }}>
+            See Pricing
+          </a>
+        </div>
+
+        <div style={{ display: "flex", gap: 24, justifyContent: "center", flexWrap: "wrap" }}>
+          {["14-day free trial", "No credit card", "Cancel anytime"].map(badge => (
+            <span key={badge} style={{ fontSize: 13, color: "#555", display: "flex", alignItems: "center", gap: 6 }}>
+              <span style={{ color: ACCENT, fontWeight: 700 }}>✓</span> {badge}
             </span>
-          </div>
-
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tight mb-6">
-            Turn happy customers
-            <br />
-            into{" "}
-            <span style={{ color: "#f59e0b" }}>5-star reviews</span>
-            <br />
-            <span className="text-3xl sm:text-4xl lg:text-5xl text-[#a1a1aa] font-medium">
-              automatically.
-            </span>
-          </h1>
-
-          <p className="text-lg sm:text-xl text-[#a1a1aa] max-w-2xl mx-auto mb-10 leading-relaxed">
-            Request Google reviews via email, SMS, or QR code. Monitor every
-            review across Google, Yelp, and Facebook. Respond faster. For{" "}
-            <span className="text-white font-semibold">84% less</span> than
-            Birdeye.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-            <Link
-              href="/pricing"
-              className="bg-[#f59e0b] text-black font-bold text-lg px-8 py-4 rounded-xl hover:bg-amber-400 transition-colors w-full sm:w-auto"
-            >
-              Start Free Trial — $49/mo
-            </Link>
-            <Link
-              href="/features"
-              className="border border-[#27272a] text-white font-semibold text-lg px-8 py-4 rounded-xl hover:bg-[#18181b] transition-colors w-full sm:w-auto"
-            >
-              See All Features →
-            </Link>
-          </div>
-
-          {/* Social proof numbers */}
-          <div className="grid grid-cols-3 gap-8 max-w-lg mx-auto">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-white">84%</div>
-              <div className="text-xs text-[#a1a1aa] mt-1">cheaper than Birdeye</div>
-            </div>
-            <div className="text-center border-x border-[#27272a]">
-              <div className="text-3xl font-bold text-white">3×</div>
-              <div className="text-xs text-[#a1a1aa] mt-1">more reviews via SMS</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-white">$0</div>
-              <div className="text-xs text-[#a1a1aa] mt-1">setup fee</div>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* TRUST BAR */}
-      <section className="border-y border-[#27272a] bg-[#18181b]/50 py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4 text-sm text-[#a1a1aa]">
-            <div className="flex items-center gap-2">
-              <span className="text-[#f59e0b]">★★★★★</span>
-              <span>Google Reviews</span>
+      {/* ── PROBLEM STRIP ── */}
+      <section style={{
+        background: "#0f0f0f", borderTop: "1px solid #1f1f1f", borderBottom: "1px solid #1f1f1f", padding: "56px 24px",
+      }}>
+        <div style={{
+          maxWidth: 1000, margin: "0 auto",
+          display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 32, textAlign: "center",
+        }}>
+          {[
+            { emoji: "😤", headline: "Happy customers forget.", body: "You delivered great work. They meant to leave a review. Life got busy. That 5-star review never happened — and your competitor got it instead." },
+            { emoji: "📉", headline: "Fewer reviews = fewer customers.", body: "Customers Google you before they call. If your last review is from 2 years ago and your competitor has 150+ this year, they win the click every time." },
+            { emoji: "💸", headline: "Birdeye charges $299/mo.", body: "For features most local businesses never use. You're paying for an enterprise platform when all you need is reviews, responses, and a dashboard that works." },
+          ].map(({ emoji, headline, body }) => (
+            <div key={headline}>
+              <div style={{ fontSize: 36, marginBottom: 12 }}>{emoji}</div>
+              <h3 style={{ fontSize: 18, fontWeight: 700, color: "#fff", marginBottom: 8 }}>{headline}</h3>
+              <p style={{ fontSize: 15, color: "#666", lineHeight: 1.6 }}>{body}</p>
             </div>
-            <div className="flex items-center gap-2">
-              <span>🔒</span>
-              <span>SOC 2 Compliant</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span>⚡</span>
-              <span>Setup in 5 minutes</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span>💳</span>
-              <span>No contracts, cancel anytime</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span>📱</span>
-              <span>Twilio BYOK — no SMS markup</span>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* PROBLEM */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-            You have happy customers.
-            <br />
-            <span style={{ color: "#ff1744" }}>But barely any reviews.</span>
+      {/* ── FEATURES ── */}
+      <section id="features" style={{ padding: "96px 24px", maxWidth: 1100, margin: "0 auto" }}>
+        <div style={{ textAlign: "center", marginBottom: 64 }}>
+          <h2 style={{ fontSize: "clamp(32px,4vw,48px)", fontWeight: 700, letterSpacing: "-1px", marginBottom: 16 }}>
+            Everything your reputation needs.
           </h2>
-          <p className="text-lg text-[#a1a1aa] leading-relaxed">
-            Your competitor has 200 Google reviews and gets all the calls. You
-            have 12 reviews from 3 years ago. New customers see that and choose
-            them — not you. Every day without reviews is money left on the table.
+          <p style={{ fontSize: 17, color: "#666", maxWidth: 500, margin: "0 auto" }}>
+            From automated requests to AI responses — every tool you need to build and protect your online reputation.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="bg-[#18181b] border border-[#27272a] rounded-2xl p-8">
-            <div className="text-4xl mb-4">😤</div>
-            <h3 className="text-xl font-bold mb-3 text-[#ff1744]">Without ZiggyReviews</h3>
-            <ul className="space-y-3 text-[#a1a1aa]">
-              <li className="flex items-start gap-3">
-                <span className="text-[#ff1744] mt-0.5">✗</span>
-                Happy customers forget to leave reviews
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#ff1744] mt-0.5">✗</span>
-                You have to awkwardly ask in person
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#ff1744] mt-0.5">✗</span>
-                Competitors outrank you on Google Maps
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#ff1744] mt-0.5">✗</span>
-                Negative reviews go unnoticed and unanswered
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#ff1744] mt-0.5">✗</span>
-                You pay $299/mo to Birdeye for the same thing
-              </li>
-            </ul>
-          </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 20 }}>
+          {[
+            { icon: "📧", title: "Automated Review Campaigns", desc: "Send review request emails and SMS automatically after every job, purchase, or appointment. Set it once and watch reviews roll in." },
+            { icon: "🤖", title: "AI-Generated Responses", desc: "Respond to every review in seconds with AI-crafted replies that sound human. Save hours — especially on Pro and Agency plans." },
+            { icon: "🌐", title: "Multi-Platform Monitoring", desc: "Google, Yelp, Facebook, and TripAdvisor — all in one dashboard. Never miss a new review or let a negative one slip by unnoticed." },
+            { icon: "📊", title: "NPS Surveys", desc: "Measure customer satisfaction internally before it goes public. Catch unhappy customers early and fix it before they write a review." },
+            { icon: "🧠", title: "Sentiment Analysis", desc: "Understand what customers love — and what they don't. AI scans every review and surfaces patterns so you can act on them." },
+            { icon: "⭐", title: "Review Widgets", desc: "Embed your best reviews directly on your website. Automatically pull fresh stars from Google and Yelp to turn visitors into buyers." },
+            { icon: "🔔", title: "Negative Review Alerts", desc: "Get notified instantly when a 1 or 2-star review drops. Respond fast, make it right, and show future customers you care." },
+            { icon: "📈", title: "Competitor Monitoring", desc: "Agency plan: watch what customers are saying about your competitors. Find their weaknesses and make them your selling points." },
+          ].map(({ icon, title, desc }) => (
+            <div key={title} style={{
+              background: "#111", border: "1px solid #1f1f1f", borderRadius: 16, padding: "28px 24px",
+            }}>
+              <div style={{ fontSize: 32, marginBottom: 14 }}>{icon}</div>
+              <h3 style={{ fontSize: 18, fontWeight: 700, color: "#fff", marginBottom: 10 }}>{title}</h3>
+              <p style={{ fontSize: 14, color: "#666", lineHeight: 1.65 }}>{desc}</p>
+            </div>
+          ))}
+        </div>
 
-          <div className="bg-[#18181b] border border-[#27272a] rounded-2xl p-8">
-            <div className="text-4xl mb-4">🚀</div>
-            <h3 className="text-xl font-bold mb-3" style={{ color: "#f59e0b" }}>With ZiggyReviews</h3>
-            <ul className="space-y-3 text-[#a1a1aa]">
-              <li className="flex items-start gap-3">
-                <span className="text-[#f59e0b] mt-0.5">✓</span>
-                Review requests go out automatically after every job
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#f59e0b] mt-0.5">✓</span>
-                SMS + email + QR code — every channel covered
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#f59e0b] mt-0.5">✓</span>
-                You climb Google Maps rankings with more reviews
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#f59e0b] mt-0.5">✓</span>
-                Instant alerts when a new review drops
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#f59e0b] mt-0.5">✓</span>
-                All for $49/mo — not $299/mo
-              </li>
-            </ul>
-          </div>
+        <div style={{
+          marginTop: 32, background: "#111", border: "1px solid #1f1f1f", borderRadius: 16,
+          padding: "28px 32px", display: "flex", flexWrap: "wrap", gap: "12px 40px",
+        }}>
+          <p style={{ color: "#555", fontSize: 13, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", width: "100%", marginBottom: 4 }}>Also included</p>
+          {["White-label client reporting (Agency)", "Bulk campaigns (Agency)", "API access (Agency)", "Review request templates", "Email + SMS delivery", "Analytics dashboard", "Google + Yelp + Facebook + TripAdvisor", "14-day free trial"].map(f => (
+            <span key={f} style={{ fontSize: 14, color: "#888", display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ color: ACCENT, fontWeight: 700 }}>✓</span> {f}
+            </span>
+          ))}
         </div>
       </section>
 
-      {/* FEATURES GRID */}
-      <section className="bg-[#18181b]/30 py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              Everything you need to dominate{" "}
-              <span style={{ color: "#f59e0b" }}>local search</span>
-            </h2>
-            <p className="text-[#a1a1aa] text-lg max-w-2xl mx-auto">
-              ZiggyReviews gives you every tool Birdeye and Podium offer — for a
-              fraction of the price.
-            </p>
+      {/* ── COMING SOON STRIP ── */}
+      <section style={{
+        background: "#0d0d0d", borderTop: "1px solid #1f1f1f", borderBottom: "1px solid #1f1f1f", padding: "64px 24px",
+      }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 40 }}>
+            <h2 style={{ fontSize: 28, fontWeight: 700, marginBottom: 8 }}>What's coming next</h2>
+            <p style={{ color: "#555", fontSize: 15 }}>We ship fast. Here's what's already in development.</p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((f) => (
-              <div
-                key={f.title}
-                className="bg-[#18181b] border border-[#27272a] rounded-2xl p-6 hover:border-[#f59e0b]/40 transition-colors"
-              >
-                <div className="text-3xl mb-4">{f.icon}</div>
-                <h3 className="text-lg font-semibold mb-2">{f.title}</h3>
-                <p className="text-[#a1a1aa] text-sm leading-relaxed">{f.desc}</p>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 16 }}>
+            {[
+              { icon: "💬", title: "SMS Review Requests", sub: "via Twilio BYOK", badge: "In Development", badgeColor: "#ff9500", desc: "Bring your own Twilio number and send SMS review requests with zero markup. Text converts 3× better than email." },
+              { icon: "📱", title: "TikTok & Instagram Embeds", sub: "Review widgets for social", badge: "In Development", badgeColor: "#ff9500", desc: "Embed your best reviews in Instagram and TikTok-optimized formats. Turn your reputation into social content." },
+              { icon: "📷", title: "QR Code Campaigns", sub: "Print-ready review codes", badge: "Coming Soon", badgeColor: "#0066ff", desc: "Generate branded QR codes for your counter, invoice, or truck wrap. One scan → Google review page. Zero friction." },
+            ].map(({ icon, title, sub, badge, badgeColor, desc }) => (
+              <div key={title} style={{ background: "#111", border: "1px solid #1f1f1f", borderRadius: 14, padding: "24px 22px" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+                  <span style={{ fontSize: 28 }}>{icon}</span>
+                  <span style={{
+                    background: `${badgeColor}20`, color: badgeColor, border: `1px solid ${badgeColor}40`,
+                    borderRadius: 99, padding: "3px 10px", fontSize: 11, fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase",
+                  }}>{badge}</span>
+                </div>
+                <h3 style={{ fontSize: 16, fontWeight: 700, color: "#fff", marginBottom: 2 }}>{title}</h3>
+                <p style={{ fontSize: 12, color: "#555", marginBottom: 8 }}>{sub}</p>
+                <p style={{ fontSize: 13, color: "#666", lineHeight: 1.6, marginTop: 6 }}>{desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* DEEP FEATURE: QR + SMS */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <div className="inline-flex items-center gap-2 bg-[#18181b] border border-[#27272a] rounded-full px-3 py-1 text-xs text-[#f59e0b] font-semibold mb-6">
-              Deep Feature
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-              QR codes + SMS.
-              <br />
-              <span style={{ color: "#f59e0b" }}>The two-punch combo</span>
-              <br />
-              that gets reviews.
+      {/* ── INDUSTRIES ── */}
+      <section style={{ padding: "96px 24px", background: "#080808", borderTop: "1px solid #1f1f1f", borderBottom: "1px solid #1f1f1f" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 56 }}>
+            <h2 style={{ fontSize: "clamp(30px,4vw,46px)", fontWeight: 700, letterSpacing: "-1px", marginBottom: 14, color: "#fff" }}>
+              Built for your industry
             </h2>
-            <p className="text-[#a1a1aa] text-lg leading-relaxed mb-8">
-              Print a QR code on your invoice, truck door, or front counter. One
-              scan goes straight to your Google review page — no friction, no
-              typing. Pair it with SMS follow-ups using your own Twilio number
-              (BYOK) and watch your review count climb.
-            </p>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <span className="text-[#f59e0b] font-bold mt-0.5">→</span>
-                <div>
-                  <strong className="text-white">QR Code Generator</strong>
-                  <p className="text-[#a1a1aa] text-sm">
-                    Branded, high-resolution QR codes ready to print in seconds.
-                    Link directly to Google, Yelp, or Facebook.
-                  </p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#f59e0b] font-bold mt-0.5">→</span>
-                <div>
-                  <strong className="text-white">Twilio BYOK — Zero Markup</strong>
-                  <p className="text-[#a1a1aa] text-sm">
-                    Bring your own Twilio number. We don't upcharge SMS — you
-                    pay Twilio's rate directly. Most competitors add 10–40%
-                    markup.
-                  </p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#f59e0b] font-bold mt-0.5">→</span>
-                <div>
-                  <strong className="text-white">Smart Timing</strong>
-                  <p className="text-[#a1a1aa] text-sm">
-                    Send SMS 2–4 hours after job completion when satisfaction is
-                    highest. Automated sequences with 1 follow-up for
-                    non-openers.
-                  </p>
-                </div>
-              </li>
-            </ul>
-          </div>
-
-          {/* Visual mockup */}
-          <div className="relative">
-            <div className="bg-[#18181b] border border-[#27272a] rounded-2xl p-8">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-[#f59e0b] rounded-xl flex items-center justify-center text-black text-lg font-bold">
-                  Z
-                </div>
-                <div>
-                  <div className="font-semibold text-sm">ZiggyReviews</div>
-                  <div className="text-xs text-[#a1a1aa]">QR Generator</div>
-                </div>
-              </div>
-
-              {/* QR mockup */}
-              <div className="bg-white rounded-xl p-4 mb-6 mx-auto w-40 h-40 flex items-center justify-center">
-                <div className="grid grid-cols-5 gap-0.5">
-                  {[...Array(25)].map((_, i) => (
-                    <div
-                      key={i}
-                      className={`w-6 h-6 rounded-sm ${
-                        [0,1,2,3,5,6,11,13,15,18,20,21,22,23,24,7,8,14,16,17].includes(i)
-                          ? "bg-black"
-                          : "bg-white"
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              <div className="text-center text-sm text-[#a1a1aa] mb-6">
-                ↑ Tap to leave us a Google review
-              </div>
-
-              {/* SMS preview */}
-              <div className="bg-[#0f0a0a] border border-[#27272a] rounded-xl p-4">
-                <div className="text-xs text-[#a1a1aa] mb-3">SMS Preview</div>
-                <div className="bg-[#1a1a2e] rounded-xl rounded-tl-none px-4 py-3 text-sm text-white max-w-xs">
-                  Hi Sarah! Thanks for choosing us today. Mind leaving a quick
-                  Google review? It takes 30 seconds and means the world to us:
-                  <span className="text-[#f59e0b]"> g.co/r/abc123</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* PRICING SECTION */}
-      <section className="bg-[#18181b]/30 py-24" id="pricing">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              One simple price.{" "}
-              <span style={{ color: "#f59e0b" }}>No surprises.</span>
-            </h2>
-            <p className="text-[#a1a1aa] text-lg">
-              While Birdeye hides their pricing behind sales calls, ours is right
-              here.
+            <p style={{ fontSize: 17, color: "#666", maxWidth: 500, margin: "0 auto" }}>
+              ZiggyReviews works for any local business — with review flows tuned for how your industry operates.
             </p>
           </div>
 
-          <div className="max-w-sm mx-auto">
-            <div className="bg-[#18181b] border-2 border-[#f59e0b] rounded-2xl p-8 text-center relative">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                <span className="bg-[#f59e0b] text-black text-xs font-bold px-3 py-1 rounded-full">
-                  MOST POPULAR
-                </span>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(300px,1fr))", gap: 16, marginBottom: 40 }}>
+            {[
+              { icon: "🍽️", name: "Restaurants & Food", desc: "Manage Google, Yelp, and TripAdvisor from one dashboard. Automate post-visit review requests via email." },
+              { icon: "💆", name: "Salons & Spas", desc: "Post-appointment review automation with a rebooking nudge. Grow your stars and your repeat bookings at the same time." },
+              { icon: "🏠", name: "Real Estate", desc: "Agent reviews, office reputation, and neighborhood-level pages. Build the trust that wins listings before the first call." },
+              { icon: "🔨", name: "Contractors & Home Services", desc: "Send a review request the moment a job is complete. Close more bids by showing up first on Google Maps." },
+              { icon: "🏥", name: "Healthcare & Dental", desc: "HIPAA-safe review collection and patient satisfaction tracking. Build trust online without compromising compliance." },
+              { icon: "🚗", name: "Auto Services", desc: "Post-service review requests plus recall reminder campaigns. Keep customers coming back and bring new ones in." },
+              { icon: "🐾", name: "Pet Services", desc: "Review automation for vets, groomers, and boarding facilities. Pet owners research online before trusting you with their family." },
+              { icon: "🏋️", name: "Fitness & Wellness", desc: "Member feedback and Google profile management. Showcase your community and attract new members through social proof." },
+            ].map(({ icon, name, desc }) => (
+              <div key={name} style={{
+                background: "#111", border: "1px solid #1f1f1f", borderRadius: 14,
+                padding: "24px 22px", display: "flex", alignItems: "flex-start", gap: 16,
+              }}>
+                <span style={{ fontSize: 32, flexShrink: 0, lineHeight: 1 }}>{icon}</span>
+                <div>
+                  <h3 style={{ fontSize: 15, fontWeight: 700, color: "#fff", marginBottom: 5 }}>{name}</h3>
+                  <p style={{ fontSize: 13, color: "#666", lineHeight: 1.55, margin: 0 }}>{desc}</p>
+                </div>
               </div>
-              <div className="text-5xl font-bold mb-1">$49</div>
-              <div className="text-[#a1a1aa] mb-8">/month · cancel anytime</div>
-              <ul className="space-y-3 text-sm text-left mb-8">
-                {[
-                  "Unlimited review requests",
-                  "Email + SMS + QR codes",
-                  "Google, Yelp, Facebook monitoring",
-                  "Response templates",
-                  "Review embed widget",
-                  "Twilio BYOK (no SMS markup)",
-                  "Analytics dashboard",
-                  "Priority support",
-                  "$0 setup fee",
-                ].map((item) => (
-                  <li key={item} className="flex items-center gap-3">
-                    <span className="text-[#f59e0b]">✓</span>
-                    <span className="text-[#a1a1aa]">{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <Link
-                href="/pricing"
-                className="block w-full bg-[#f59e0b] text-black font-bold py-3.5 rounded-xl hover:bg-amber-400 transition-colors"
-              >
-                Start Free Trial
-              </Link>
-              <p className="text-xs text-[#a1a1aa] mt-4">
-                14-day free trial · No credit card required
+            ))}
+          </div>
+
+          <div style={{
+            background: `rgba(245,158,11,0.06)`, border: `1px solid rgba(245,158,11,0.2)`,
+            borderRadius: 14, padding: "32px 36px",
+            display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 20,
+          }}>
+            <div>
+              <h3 style={{ fontSize: 18, fontWeight: 700, color: "#fff", marginBottom: 6 }}>Need a custom review flow?</h3>
+              <p style={{ fontSize: 15, color: "#888", maxWidth: 480, lineHeight: 1.6, margin: 0 }}>
+                We set up custom review request sequences for any business type. Every plan includes onboarding support.
               </p>
             </div>
+            <a href="mailto:hello@ziggyreviews.com" style={{
+              background: ACCENT, color: "#000", textDecoration: "none",
+              padding: "13px 26px", borderRadius: 9, fontSize: 15, fontWeight: 700, whiteSpace: "nowrap", flexShrink: 0,
+            }}>
+              Contact Us →
+            </a>
           </div>
         </div>
       </section>
 
-      {/* COMPARISON TABLE */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Same features.{" "}
-            <span style={{ color: "#f59e0b" }}>84% lower price.</span>
+      {/* ── COMPARISON TABLE ── */}
+      <section style={{ padding: "96px 24px", maxWidth: 960, margin: "0 auto" }}>
+        <div style={{ textAlign: "center", marginBottom: 48 }}>
+          <h2 style={{ fontSize: "clamp(28px,4vw,42px)", fontWeight: 700, letterSpacing: "-0.8px", marginBottom: 12 }}>
+            ZiggyReviews vs Birdeye
           </h2>
-          <p className="text-[#a1a1aa] text-lg">
-            Don't pay enterprise prices for small business needs.
+          <p style={{ color: "#666", fontSize: 16 }}>
+            Same core features. 84% lower price. No setup fee. No annual contract.
           </p>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full">
+        <div style={{ overflowX: "auto" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 15 }}>
             <thead>
-              <tr className="border-b border-[#27272a]">
-                <th className="text-left py-4 pr-6 text-[#a1a1aa] font-medium text-sm">
-                  Feature
-                </th>
-                <th className="text-center py-4 px-4 text-sm">
-                  <div className="font-bold text-white">
-                    <span style={{ color: "#ff1744" }}>Ziggy</span>
-                    <span style={{ color: "#f59e0b" }}>Reviews</span>
-                  </div>
-                </th>
-                <th className="text-center py-4 px-4 text-[#a1a1aa] font-medium text-sm">
-                  Birdeye
-                </th>
-                <th className="text-center py-4 px-4 text-[#a1a1aa] font-medium text-sm">
-                  Podium
-                </th>
+              <tr>
+                <th style={{ textAlign: "left", padding: "14px 20px", color: "#555", fontWeight: 600, fontSize: 13, borderBottom: "1px solid #1f1f1f" }}>Feature</th>
+                <th style={{ textAlign: "center", padding: "14px 20px", color: ACCENT, fontWeight: 700, fontSize: 15, borderBottom: "1px solid #1f1f1f", background: `rgba(245,158,11,0.05)` }}>ZiggyReviews</th>
+                <th style={{ textAlign: "center", padding: "14px 20px", color: "#555", fontWeight: 600, fontSize: 13, borderBottom: "1px solid #1f1f1f" }}>Birdeye</th>
               </tr>
             </thead>
             <tbody>
-              {comparisons.map((row, i) => (
-                <tr
-                  key={row.feature}
-                  className={`border-b border-[#27272a] ${
-                    i === 0 ? "bg-[#18181b]/50" : ""
-                  }`}
-                >
-                  <td className="py-3.5 pr-6 text-sm text-[#a1a1aa]">
-                    {row.feature}
-                  </td>
-                  <td className="py-3.5 px-4 text-center">
-                    <span
-                      className={`text-sm font-semibold ${
-                        i === 0 ? "text-[#f59e0b] text-xl" : "text-[#f59e0b]"
-                      }`}
-                    >
-                      {row.us}
-                    </span>
-                  </td>
-                  <td className="py-3.5 px-4 text-center text-sm text-[#a1a1aa]">
-                    {row.birdeye}
-                  </td>
-                  <td className="py-3.5 px-4 text-center text-sm text-[#a1a1aa]">
-                    {row.podium}
-                  </td>
+              {[
+                ["Starting price", "$29/mo", "$299/mo"],
+                ["Setup fee", "$0", "$299+"],
+                ["Annual contract required", "No", "Yes"],
+                ["Review request campaigns (email)", "✅ Yes", "✅ Yes"],
+                ["AI-generated review responses", "✅ Yes (Pro+)", "✅ Yes"],
+                ["Multi-platform monitoring", "✅ Google, Yelp, FB, TripAdvisor", "✅ Yes"],
+                ["NPS surveys", "✅ Yes (Pro+)", "✅ Yes"],
+                ["Sentiment analysis", "✅ Yes (Pro+)", "✅ Yes"],
+                ["Review embed widget", "✅ Yes", "✅ Yes"],
+                ["Negative review alerts", "✅ Yes", "✅ Yes"],
+                ["Competitor monitoring", "✅ Agency plan", "✅ Yes"],
+                ["White-label reporting", "✅ Agency ($99/mo)", "✅ Enterprise only"],
+              ].map(([feature, ziggy, them], i) => (
+                <tr key={feature} style={{ background: i % 2 === 0 ? "transparent" : "#0d0d0d" }}>
+                  <td style={{ padding: "14px 20px", color: "#888", borderBottom: "1px solid #161616" }}>{feature}</td>
+                  <td style={{ padding: "14px 20px", color: "#fff", textAlign: "center", borderBottom: "1px solid #161616", background: `rgba(245,158,11,0.03)`, fontWeight: 500 }}>{ziggy}</td>
+                  <td style={{ padding: "14px 20px", color: "#555", textAlign: "center", borderBottom: "1px solid #161616" }}>{them}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 mt-8">
-          <Link
-            href="/vs/birdeye"
-            className="text-center border border-[#27272a] text-[#a1a1aa] text-sm px-6 py-3 rounded-lg hover:border-[#f59e0b] hover:text-white transition-colors"
-          >
-            Full ZiggyReviews vs Birdeye comparison →
-          </Link>
-          <Link
-            href="/vs/podium"
-            className="text-center border border-[#27272a] text-[#a1a1aa] text-sm px-6 py-3 rounded-lg hover:border-[#f59e0b] hover:text-white transition-colors"
-          >
-            Full ZiggyReviews vs Podium comparison →
-          </Link>
+        <div style={{
+          marginTop: 24, background: `rgba(245,158,11,0.06)`, border: `1px solid rgba(245,158,11,0.2)`,
+          borderRadius: 12, padding: "20px 24px",
+        }}>
+          <p style={{ fontSize: 15, color: "#ccc", lineHeight: 1.7, margin: 0 }}>
+            <strong style={{ color: ACCENT }}>Bottom line:</strong> Birdeye charges $299/mo for features most businesses never use. ZiggyReviews Pro covers 3 locations with AI responses for $49/mo. That's 84% less. Our Agency plan at $99/mo competes directly with Birdeye's full feature set.
+          </p>
+        </div>
+
+        <div style={{ marginTop: 16, textAlign: "center" }}>
+          <a href="/vs/birdeye" style={{ color: ACCENT, fontSize: 14, textDecoration: "underline" }}>
+            See the full ZiggyReviews vs Birdeye comparison →
+          </a>
         </div>
       </section>
 
-      {/* FINAL CTA */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-        <div
-          className="rounded-3xl p-12 text-center relative overflow-hidden"
-          style={{
-            background:
-              "linear-gradient(135deg, #18181b 0%, #1a1505 50%, #18181b 100%)",
-            border: "1px solid #27272a",
-          }}
-        >
-          <div
-            className="absolute inset-0 opacity-20 pointer-events-none"
-            style={{
-              background:
-                "radial-gradient(ellipse 60% 60% at 50% 50%, #f59e0b, transparent)",
-            }}
-          />
-          <div className="relative">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              Stop losing customers to competitors
-              <br />
-              with more reviews.
+      {/* ── PRICING ── */}
+      <section id="pricing" style={{ padding: "96px 24px", background: "#080808", borderTop: "1px solid #1f1f1f", borderBottom: "1px solid #1f1f1f" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 56 }}>
+            <h2 style={{ fontSize: "clamp(28px,4vw,42px)", fontWeight: 700, letterSpacing: "-0.8px", marginBottom: 12 }}>
+              Simple pricing. No surprises.
             </h2>
-            <p className="text-[#a1a1aa] text-lg mb-8 max-w-xl mx-auto">
-              Join businesses that automated their review process with
-              ZiggyReviews. Start free, no credit card required.
+            <p style={{ color: "#666", fontSize: 16 }}>
+              Start free. Upgrade when you grow. Cancel anytime.
             </p>
-            <Link
-              href="/pricing"
-              className="inline-block bg-[#f59e0b] text-black font-bold text-lg px-10 py-4 rounded-xl hover:bg-amber-400 transition-colors"
-            >
-              Start Your Free Trial →
-            </Link>
-            <p className="text-sm text-[#a1a1aa] mt-4">
-              14 days free · Then $49/mo · Cancel anytime
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 24, maxWidth: 960, margin: "0 auto" }}>
+            {[
+              {
+                name: "Starter", price: "$29", sub: "/mo", highlight: false,
+                desc: "Perfect for single-location businesses just getting started with review automation.",
+                features: ["1 location", "150 review requests/mo", "Basic email templates", "Google + Yelp monitoring", "Review embed widget", "Email support"],
+                cta: "Start Free Trial",
+              },
+              {
+                name: "Pro", price: "$49", sub: "/mo", highlight: true,
+                desc: "The sweet spot for growing businesses with multiple locations.",
+                features: ["3 locations", "Unlimited review requests", "AI-generated responses", "NPS surveys", "Sentiment analysis", "Google + Yelp + Facebook + TripAdvisor", "Priority support"],
+                cta: "Start Free Trial",
+              },
+              {
+                name: "Agency", price: "$99", sub: "/mo", highlight: false,
+                desc: "For agencies and multi-location brands managing reputation at scale.",
+                features: ["Unlimited locations", "Everything in Pro", "White-label client reporting", "Bulk campaigns", "Competitor monitoring", "API access", "Dedicated onboarding"],
+                cta: "Start Free Trial",
+              },
+            ].map(({ name, price, sub, highlight, desc, features, cta }) => (
+              <div key={name} style={{
+                background: "#111",
+                border: highlight ? `2px solid ${ACCENT}` : "1px solid #1f1f1f",
+                borderRadius: 20, padding: "36px 28px",
+                position: "relative",
+              }}>
+                {highlight && (
+                  <div style={{
+                    position: "absolute", top: -14, left: "50%", transform: "translateX(-50%)",
+                    background: ACCENT, color: "#000", fontSize: 11, fontWeight: 700,
+                    padding: "4px 14px", borderRadius: 99, letterSpacing: "0.08em", textTransform: "uppercase", whiteSpace: "nowrap",
+                  }}>Most Popular</div>
+                )}
+                <div style={{ fontSize: 13, fontWeight: 700, color: highlight ? ACCENT : "#555", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 12 }}>{name}</div>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 8 }}>
+                  <span style={{ fontSize: 52, fontWeight: 700, color: "#fff", letterSpacing: "-2px" }}>{price}</span>
+                  <span style={{ fontSize: 16, color: "#555" }}>{sub}</span>
+                </div>
+                <p style={{ fontSize: 14, color: "#666", lineHeight: 1.6, marginBottom: 28 }}>{desc}</p>
+                <ul style={{ listStyle: "none", padding: 0, marginBottom: 28 }}>
+                  {features.map(item => (
+                    <li key={item} style={{ padding: "7px 0", fontSize: 14, color: "#ccc", display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid #1a1a1a" }}>
+                      <span style={{ color: ACCENT, fontWeight: 700, flexShrink: 0 }}>✓</span> {item}
+                    </li>
+                  ))}
+                </ul>
+                <a href={SIGNUP} style={{
+                  display: "block", textDecoration: "none", textAlign: "center",
+                  background: highlight ? ACCENT : "transparent",
+                  color: highlight ? "#000" : "#fff",
+                  border: highlight ? "none" : "1px solid #333",
+                  padding: "14px", borderRadius: 10, fontSize: 15, fontWeight: 700,
+                }}>
+                  {cta}
+                </a>
+              </div>
+            ))}
+          </div>
+
+          <p style={{ textAlign: "center", marginTop: 24, fontSize: 13, color: "#444" }}>
+            All plans include a 14-day free trial · No credit card required · Cancel anytime
+          </p>
+
+          <div style={{
+            marginTop: 32, background: "#111", border: "1px solid #1f1f1f", borderRadius: 14,
+            padding: "22px 24px", textAlign: "center", maxWidth: 600, margin: "32px auto 0",
+          }}>
+            <p style={{ color: "#888", fontSize: 14, lineHeight: 1.6 }}>
+              🏢 <strong style={{ color: "#fff" }}>Running a full business?</strong> Get all 10 ZiggyTech apps — including ZiggyReviews — for{" "}
+              <strong style={{ color: ACCENT }}>$179/mo flat</strong> with the ZiggyTech Business Suite.{" "}
+              <a href="https://ziggybusiness.com" style={{ color: ACCENT, textDecoration: "underline" }}>Learn more →</a>
             </p>
           </div>
         </div>
       </section>
 
-      <Footer />
+      {/* ── FAQ ── */}
+      <section style={{ padding: "96px 24px", maxWidth: 740, margin: "0 auto" }}>
+        <h2 style={{ fontSize: "clamp(28px,4vw,38px)", fontWeight: 700, letterSpacing: "-0.6px", marginBottom: 48, textAlign: "center" }}>
+          Questions? We've got answers.
+        </h2>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          {[
+            { q: "How much does ZiggyReviews cost?", a: "Plans start at $29/mo for one location (Starter). Pro is $49/mo and covers 3 locations with AI-generated responses, NPS surveys, and sentiment analysis. Agency is $99/mo — unlimited locations, white-label reporting, bulk campaigns, and API access. All plans start with a 14-day free trial, no credit card required." },
+            { q: "How is ZiggyReviews different from Birdeye?", a: "Birdeye charges $299/mo for features most local businesses never use. ZiggyReviews Pro covers 3 locations with AI responses for $49/mo — that's 84% less. Our Agency plan at $99/mo competes directly with Birdeye's full feature set. No setup fee, no annual contract." },
+            { q: "Which review platforms does ZiggyReviews support?", a: "Google, Yelp, Facebook, and TripAdvisor — all monitored from one dashboard. Review request campaigns direct customers to whichever platform matters most for your business. Starter covers Google + Yelp; Pro and Agency add Facebook and TripAdvisor." },
+            { q: "How does the 14-day free trial work?", a: "Sign up and get 14 days free with full access — no credit card required. You get all the features of your chosen plan from day one. If it's not for you, just walk away. Nothing to cancel, nothing to explain." },
+            { q: "Is ZiggyReviews HIPAA-safe for healthcare businesses?", a: "Yes. Our healthcare review collection flows are designed to be HIPAA-safe. We collect satisfaction data without referencing specific treatments or diagnoses, so you can build your online reputation without worrying about compliance." },
+            { q: "Can I white-label ZiggyReviews for my agency?", a: "Yes — on the Agency plan ($99/mo). You get full white-label reporting so clients see your brand, not ours. Plus bulk campaigns across unlimited locations, competitor monitoring, and API access to build custom integrations." },
+          ].map(({ q, a }) => (
+            <details key={q} style={{ background: "#111", border: "1px solid #1f1f1f", borderRadius: 10, overflow: "hidden" }}>
+              <summary style={{
+                padding: "20px 24px", fontSize: 16, fontWeight: 600, color: "#fff",
+                cursor: "pointer", listStyle: "none", display: "flex", justifyContent: "space-between", alignItems: "center",
+              }}>
+                {q}
+                <span style={{ color: ACCENT, fontSize: 20, fontWeight: 400, flexShrink: 0 }}>+</span>
+              </summary>
+              <div style={{ padding: "0 24px 20px", fontSize: 15, color: "#777", lineHeight: 1.7, borderTop: "1px solid #1a1a1a" }}>
+                <p style={{ marginTop: 16 }}>{a}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      {/* ── FINAL CTA ── */}
+      <section style={{
+        padding: "100px 24px", textAlign: "center",
+        background: "linear-gradient(180deg,#0a0a0a 0%,#0d0800 100%)",
+        borderTop: "1px solid #1f1f1f",
+      }}>
+        <h2 style={{ fontSize: "clamp(36px,5vw,58px)", fontWeight: 700, letterSpacing: "-1.5px", marginBottom: 20, lineHeight: 1.1 }}>
+          Your competitors are getting reviews<br />
+          <span style={{
+            background: `linear-gradient(135deg,#fff 0%,${ACCENT} 100%)`,
+            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+          }}>right now.</span>
+        </h2>
+        <p style={{ fontSize: 18, color: "#555", marginBottom: 40 }}>
+          14 days free. No credit card. Cancel anytime.
+        </p>
+        <a href={SIGNUP} style={{
+          display: "inline-block", background: ACCENT, color: "#000", textDecoration: "none",
+          padding: "18px 40px", borderRadius: 12, fontSize: 18, fontWeight: 700, letterSpacing: "-0.2px",
+        }}>
+          Start Free Trial →
+        </a>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer style={{ background: "#050505", borderTop: "1px solid #111", padding: "40px 24px" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", flexDirection: "column", alignItems: "center", gap: 20, textAlign: "center" }}>
+          <div style={{ display: "flex", gap: 28, flexWrap: "wrap", justifyContent: "center" }}>
+            {[["Home", "/"], ["Features", "#features"], ["Compare", "/vs/birdeye"], ["Pricing", "#pricing"], ["Blog", "/blog"], ["Privacy", "/privacy"], ["Terms", "/terms"], ["Sign In", LOGIN]].map(([label, href]) => (
+              <a key={label} href={href} style={{ color: "#555", fontSize: 14, textDecoration: "none", fontWeight: 500 }}>{label}</a>
+            ))}
+          </div>
+          <p style={{ fontSize: 13, color: "#333" }}>
+            Part of{" "}
+            <a href="https://ziggybusiness.com" style={{ color: "#555", textDecoration: "none" }}>ZiggyTech Business Suite</a>
+            {" · "}
+            <a href="https://ziggybusiness.com" style={{ color: "#555", textDecoration: "none" }}>ziggybusiness.com</a>
+          </p>
+          <p style={{ fontSize: 13, color: "#2a2a2a" }}>© 2026 ZiggyReviews. All rights reserved.</p>
+        </div>
+      </footer>
     </>
-  );
+  )
 }
