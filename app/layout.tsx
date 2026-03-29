@@ -56,6 +56,12 @@ export const metadata: Metadata = {
     },
   },
   metadataBase: new URL("https://ziggyreviews.com"),
+
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({
