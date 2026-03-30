@@ -11,14 +11,9 @@ export default function Nav() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-1">
-            <span className="text-xl font-bold" style={{ color: "#ff1744" }}>
-              Ziggy
-            </span>
-            <span className="text-xl font-bold" style={{ color: "#f59e0b" }}>
-              Reviews
-            </span>
-          </Link>
+          <a href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center" }}>
+            <img src="/ziggyreviews-wordmark-v3.png" alt="ZiggyReviews" style={{ height: 32, width: "auto" }} />
+          </a>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
