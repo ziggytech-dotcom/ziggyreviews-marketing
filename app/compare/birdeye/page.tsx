@@ -18,7 +18,7 @@ const rows = [
   { feature: `Priority support`, ziggy: true },
 ]
 const reasons = [
-  `Save money every month — NiceJob charges $75/mo. ZiggyReviews starts at $29/mo.`,
+  `Save money every month — Birdeye charges $299/mo. ZiggyReviews starts at $29/mo.`,
   `ZiggyReviews is built for how small businesses actually operate — not enterprise workflows.`,
   `Get up and running in under an hour. No lengthy onboarding required.`,
   `ZiggyReviews integrates natively with all 9 other ZiggyTech apps. No API setup needed.`,
@@ -31,9 +31,9 @@ export default function ComparePage() {
       <section className="relative overflow-hidden pt-20 pb-20 px-4">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#f59e0b]/8 rounded-full blur-3xl pointer-events-none" />
         <div className="max-w-4xl mx-auto text-center relative">
-          <div className="inline-flex items-center gap-2 bg-[#1a1a1a] border border-[#2d2d2d] rounded-full px-4 py-1.5 text-sm text-[#b3b3b3] mb-8">ZiggyReviews vs NiceJob</div>
+          <div className="inline-flex items-center gap-2 bg-[#1a1a1a] border border-[#2d2d2d] rounded-full px-4 py-1.5 text-sm text-[#b3b3b3] mb-8">ZiggyReviews vs Birdeye</div>
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-            <span className="text-[#f59e0b]">ZiggyReviews</span> vs <span className="text-[#b3b3b3]">NiceJob</span>
+            <span className="text-[#f59e0b]">ZiggyReviews</span> vs <span className="text-[#b3b3b3]">Birdeye</span>
           </h1>
           <p className="text-xl text-[#b3b3b3] max-w-2xl mx-auto mb-10">The honest comparison. Same core features. Better pricing for small teams.</p>
           <Link href="https://app.ziggyreviews.com/signup" className="bg-[#f59e0b] text-white rounded-xl px-8 py-4 font-semibold text-lg hover:opacity-90 inline-block">Try ZiggyReviews Free</Link>
@@ -43,7 +43,7 @@ export default function ComparePage() {
         <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl font-bold text-white mb-6">The verdict</h2>
           <div className="bg-[#1a1a1a] border border-[#2d2d2d] rounded-xl p-6">
-            <p className="text-[#b3b3b3] leading-relaxed">NiceJob is a solid review management tool — but at $75/mo it's nearly 3x the cost of ZiggyReviews Starter. ZiggyReviews includes automated requests, AI response suggestions, multi-platform monitoring, and review widgets at $29/mo.</p>
+            <p className="text-[#b3b3b3] leading-relaxed">Birdeye is a full-featured reputation platform at $299/mo — built for multi-location enterprises, not small businesses. ZiggyReviews Pro covers 3 locations at $49/mo with the same core features.</p>
           </div>
         </div>
       </section>
@@ -57,8 +57,8 @@ export default function ComparePage() {
               <p className="text-sm text-[#f59e0b] mt-2">Full ZiggyTech Suite integration</p>
             </div>
             <div className="bg-[#111111] border border-[#1f1f1f] rounded-2xl p-8 text-center">
-              <p className="text-xl font-bold text-white mb-2">NiceJob</p>
-              <p className="text-5xl font-bold text-white mb-1">$75<span className="text-xl text-[#b3b3b3]">/mo</span></p>
+              <p className="text-xl font-bold text-white mb-2">Birdeye</p>
+              <p className="text-5xl font-bold text-white mb-1">$299<span className="text-xl text-[#b3b3b3]">/mo</span></p>
               <p className="text-sm text-[#b3b3b3] mt-2">No suite integration</p>
             </div>
           </div>
@@ -70,7 +70,7 @@ export default function ComparePage() {
             <div className="grid grid-cols-3 bg-[#1a1a1a] border-b border-[#1f1f1f]">
               <div className="p-4 text-sm font-semibold text-[#b3b3b3]">Feature</div>
               <div className="p-4 text-sm font-semibold text-[#f59e0b] text-center">ZiggyReviews</div>
-              <div className="p-4 text-sm font-semibold text-[#b3b3b3] text-center">NiceJob</div>
+              <div className="p-4 text-sm font-semibold text-[#b3b3b3] text-center">Birdeye</div>
             </div>
             {rows.map((r) => (
               <div key={r.feature} className="grid grid-cols-3 border-b border-[#1f1f1f] last:border-0">

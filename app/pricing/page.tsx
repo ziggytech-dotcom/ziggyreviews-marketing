@@ -1,239 +1,130 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
+'use client'
+import { useState } from 'react'
+import Link from 'next/link'
+import { MarketingNav } from '@/app/components/Nav'
+import { MarketingFooter } from '@/app/components/Footer'
 
-export const metadata: Metadata = {
-  title: "Pricing — $49/mo Review Management Software",
-  description:
-    "ZiggyReviews is $49/mo — everything included. No setup fee, no contracts, no SMS markup. Start a 14-day free trial. 84% less than Birdeye.",
-};
-
+const starterFeatures = [
+  `1 location`,
+  `Automated review requests (email + SMS)`,
+  `Google + Yelp + Facebook monitoring`,
+  `AI response suggestions`,
+  `Review widgets`,
+  `Email notifications`,
+  `Email support`,
+]
+const proFeatures = [
+  `Everything in Starter`,
+  `3 locations`,
+  `NPS surveys`,
+  `Competitor tracking (3 competitors)`,
+  `Advanced analytics`,
+  `Custom branding`,
+  `Priority support`,
+  `API access`,
+]
+const compRows = [
+  { feature: `Locations included`, starter: `1 location`, pro: `3 locations` },
+  { feature: `Automated review requests`, starter: true, pro: true },
+  { feature: `Google monitoring`, starter: true, pro: true },
+  { feature: `Yelp monitoring`, starter: true, pro: true },
+  { feature: `Facebook monitoring`, starter: true, pro: true },
+  { feature: `AI response suggestions`, starter: true, pro: true },
+  { feature: `Review widgets`, starter: true, pro: true },
+  { feature: `NPS surveys`, starter: false, pro: true },
+  { feature: `Competitor tracking`, starter: false, pro: true },
+  { feature: `Advanced analytics`, starter: false, pro: true },
+  { feature: `Custom branding`, starter: false, pro: true },
+  { feature: `API access`, starter: false, pro: true },
+  { feature: `Priority support`, starter: false, pro: true },
+]
 const faqs = [
-  {
-    q: "Is there really no setup fee?",
-    a: "Zero. No setup fee, no onboarding fee, no hidden charges. You pay $49/mo and that's it.",
-  },
-  {
-    q: "How does the SMS work? Do I need a Twilio account?",
-    a: "Yes — we use a Bring Your Own Key (BYOK) model for Twilio. You connect your own Twilio account and number. This means you pay Twilio's rate directly (typically $0.0075/SMS) with zero markup from us. Birdeye and Podium mark up SMS significantly.",
-  },
-  {
-    q: "Can I cancel anytime?",
-    a: "Yes. No contracts, no commitments. Cancel any time from your dashboard. We don't make it hard.",
-  },
-  {
-    q: "How many locations are included?",
-    a: "The $49/mo plan includes 1 business location. Additional locations are $29/mo each. Running 5+ locations? Contact us for a bundle discount.",
-  },
-  {
-    q: "What platforms do you monitor?",
-    a: "Google, Yelp, and Facebook out of the box. More platforms coming soon.",
-  },
-  {
-    q: "Is there a limit on review requests?",
-    a: "No. Send unlimited review requests via email. SMS is limited only by your Twilio account balance.",
-  },
-  {
-    q: "Do you offer a free trial?",
-    a: "Yes — 14 days free, no credit card required. Full access to all features.",
-  },
-  {
-    q: "What's the difference between ZiggyReviews and Birdeye?",
-    a: "The main difference is price: $49/mo vs $299/mo. Both offer automated review requests, monitoring, and response tools. We also include Twilio BYOK so you pay no SMS markup — Birdeye charges for SMS separately.",
-  },
-  {
-    q: "Can I use ZiggyReviews for multiple businesses?",
-    a: "Yes. You can manage multiple businesses or locations from one account. Each additional location is $29/mo.",
-  },
-  {
-    q: "Do you offer refunds?",
-    a: "Yes. If you're not happy in your first 30 days, we'll refund your first month. No questions asked.",
-  },
-];
+  { q: `Which review platforms does ZiggyReviews support?`, a: `Currently Google Business, Yelp, and Facebook. TripAdvisor, Trustpilot, and OpenTable monitoring are coming in 2026.` },
+  { q: `How do automated review requests work?`, a: `Connect ZiggyReviews to your CRM or POS via Zapier. When a job is marked complete, ZiggyReviews automatically sends a review request. Happy customers are directed to Google; unhappy ones are captured privately.` },
+  { q: `Are the AI response suggestions good?`, a: `They're a starting point — you review and edit before publishing. You can train ZiggyReviews on your brand voice by rating suggestions and adding custom instructions.` },
+  { q: `How many locations can I manage?`, a: `Starter covers 1 location at $29/mo. Pro covers 3 locations at $49/mo. Add more locations at $15/location/mo on Pro.` },
+]
 
 export default function PricingPage() {
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
   return (
-    <>
-      <Nav />
-
-      {/* Hero */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
-        <h1 className="text-4xl sm:text-5xl font-bold mb-6">
-          Simple pricing.{" "}
-          <span style={{ color: "#f59e0b" }}>No surprises.</span>
-        </h1>
-        <p className="text-lg text-[#a1a1aa] max-w-xl mx-auto">
-          While Birdeye hides their $299/mo price behind a sales demo, ours is
-          right here.
-        </p>
-      </section>
-
-      {/* Pricing cards */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-        <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-          {/* Starter */}
-          <div className="bg-[#18181b] border border-[#27272a] rounded-2xl p-8">
-            <h3 className="text-lg font-semibold mb-1">Starter</h3>
-            <p className="text-[#a1a1aa] text-sm mb-6">For small businesses getting started</p>
-            <div className="text-4xl font-bold mb-1">$49</div>
-            <div className="text-[#a1a1aa] text-sm mb-8">/month · 1 location</div>
-            <ul className="space-y-3 text-sm mb-8">
-              {[
-                "1 business location",
-                "Unlimited email requests",
-                "QR code generator",
-                "Google/Yelp/Facebook monitoring",
-                "Response templates",
-                "Review embed widget",
-                "Twilio BYOK",
-                "Analytics dashboard",
-                "Email support",
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-3">
-                  <span className="text-[#f59e0b]">✓</span>
-                  <span className="text-[#a1a1aa]">{item}</span>
-                </li>
-              ))}
-            </ul>
-            <Link
-              href="#"
-              className="block w-full text-center border border-[#f59e0b] text-[#f59e0b] font-semibold py-3 rounded-xl hover:bg-[#f59e0b] hover:text-black transition-colors"
-            >
-              Start Free Trial
-            </Link>
-          </div>
-
-          {/* Pro — highlighted */}
-          <div className="bg-[#18181b] border-2 border-[#f59e0b] rounded-2xl p-8 relative">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-              <span className="bg-[#f59e0b] text-black text-xs font-bold px-3 py-1 rounded-full">
-                BEST VALUE
-              </span>
-            </div>
-            <h3 className="text-lg font-semibold mb-1">Growth</h3>
-            <p className="text-[#a1a1aa] text-sm mb-6">For businesses scaling fast</p>
-            <div className="text-4xl font-bold mb-1">$99</div>
-            <div className="text-[#a1a1aa] text-sm mb-8">/month · up to 3 locations</div>
-            <ul className="space-y-3 text-sm mb-8">
-              {[
-                "Up to 3 locations",
-                "Everything in Starter",
-                "SMS requests (Twilio BYOK)",
-                "Review funnel (filter unhappy)",
-                "Competitor monitoring",
-                "Weekly email reports",
-                "Multi-location dashboard",
-                "Priority email + chat support",
-                "30-day money-back guarantee",
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-3">
-                  <span className="text-[#f59e0b]">✓</span>
-                  <span className="text-[#a1a1aa]">{item}</span>
-                </li>
-              ))}
-            </ul>
-            <Link
-              href="#"
-              className="block w-full text-center bg-[#f59e0b] text-black font-bold py-3 rounded-xl hover:bg-amber-400 transition-colors"
-            >
-              Start Free Trial
-            </Link>
-          </div>
-
-          {/* Agency */}
-          <div className="bg-[#18181b] border border-[#27272a] rounded-2xl p-8">
-            <h3 className="text-lg font-semibold mb-1">Agency</h3>
-            <p className="text-[#a1a1aa] text-sm mb-6">For agencies & multi-location brands</p>
-            <div className="text-4xl font-bold mb-1">Custom</div>
-            <div className="text-[#a1a1aa] text-sm mb-8">Volume pricing · white label</div>
-            <ul className="space-y-3 text-sm mb-8">
-              {[
-                "Unlimited locations",
-                "Everything in Growth",
-                "White label branding",
-                "Agency dashboard",
-                "Client reporting",
-                "API access",
-                "Dedicated account manager",
-                "SLA guarantee",
-                "Custom onboarding",
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-3">
-                  <span className="text-[#f59e0b]">✓</span>
-                  <span className="text-[#a1a1aa]">{item}</span>
-                </li>
-              ))}
-            </ul>
-            <a
-              href="mailto:hello@ziggyreviews.com"
-              className="block w-full text-center border border-[#27272a] text-white font-semibold py-3 rounded-xl hover:bg-[#27272a] transition-colors"
-            >
-              Contact Sales
-            </a>
-          </div>
-        </div>
-
-        {/* vs competitors callout */}
-        <div className="mt-12 bg-[#18181b] border border-[#27272a] rounded-2xl p-6 max-w-4xl mx-auto">
-          <div className="grid grid-cols-3 gap-4 text-center">
-            <div>
-              <div className="text-2xl font-bold" style={{ color: "#f59e0b" }}>$49/mo</div>
-              <div className="text-xs text-[#a1a1aa] mt-1">ZiggyReviews Starter</div>
-            </div>
-            <div className="border-x border-[#27272a]">
-              <div className="text-2xl font-bold text-[#a1a1aa] line-through">$299/mo</div>
-              <div className="text-xs text-[#a1a1aa] mt-1">Birdeye</div>
-            </div>
-            <div>
-              <div className="text-2xl font-bold text-[#a1a1aa] line-through">$399/mo</div>
-              <div className="text-xs text-[#a1a1aa] mt-1">Podium</div>
-            </div>
-          </div>
-          <div className="text-center mt-4 text-sm text-[#a1a1aa]">
-            You save <span className="text-white font-semibold">$250–$350/mo</span> vs the competition. That&apos;s{" "}
-            <span className="text-[#f59e0b] font-semibold">$3,000–$4,200/year</span>.
-          </div>
+    <div className="bg-[#0a0a0a] min-h-screen" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+      <MarketingNav />
+      <section className="pt-20 pb-16 px-4 text-center">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-xs font-semibold uppercase tracking-widest text-[#f59e0b] mb-4">Pricing</p>
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">Simple, honest pricing</h1>
+          <p className="text-xl text-[#b3b3b3] max-w-2xl mx-auto">No seat traps. No hidden fees. Just a price that works.</p>
         </div>
       </section>
-
-      {/* FAQ */}
-      <section className="bg-[#18181b]/30 py-24">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-16">
-            Frequently Asked Questions
-          </h2>
-          <div className="space-y-6">
-            {faqs.map((faq) => (
-              <div
-                key={faq.q}
-                className="bg-[#18181b] border border-[#27272a] rounded-2xl p-6"
-              >
-                <h3 className="font-semibold text-white mb-2">{faq.q}</h3>
-                <p className="text-[#a1a1aa] text-sm leading-relaxed">{faq.a}</p>
+      <section className="py-12 px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+            <div className="bg-[#111111] border border-[#1f1f1f] rounded-2xl p-8">
+              <p className="text-sm font-semibold text-[#b3b3b3] uppercase tracking-wider mb-2">Starter</p>
+              <div className="flex items-end gap-1 mb-1"><span className="text-6xl font-bold text-white">$29</span><span className="text-[#b3b3b3] mb-2 text-lg">/mo</span></div>
+              <p className="text-sm text-[#b3b3b3] mb-6">1 location</p>
+              <Link href="https://app.ziggyreviews.com/signup" className="block w-full text-center px-6 py-3.5 bg-[#f59e0b]/10 border border-[#f59e0b]/30 text-[#f59e0b] rounded-xl font-semibold hover:bg-[#f59e0b]/20 transition-all mb-6">Start free trial</Link>
+              <ul className="space-y-3">{starterFeatures.map((f) => <li key={f} className="flex items-start gap-3 text-[#b3b3b3] text-sm"><svg className="w-4 h-4 text-[#f59e0b] mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>{f}</li>)}</ul>
+            </div>
+            <div className="bg-[#111111] border-2 border-[#f59e0b]/40 rounded-2xl p-8 relative">
+              <div className="absolute -top-3 left-6"><span className="px-3 py-1 bg-[#f59e0b] text-white text-xs font-bold rounded-full uppercase">Most Popular</span></div>
+              <p className="text-sm font-semibold text-[#b3b3b3] uppercase tracking-wider mb-2">Pro</p>
+              <div className="flex items-end gap-1 mb-1"><span className="text-6xl font-bold text-white">$49</span><span className="text-[#b3b3b3] mb-2 text-lg">/mo</span></div>
+              <p className="text-sm text-[#b3b3b3] mb-6">3 locations</p>
+              <Link href="https://app.ziggyreviews.com/signup" className="block w-full text-center px-6 py-3.5 bg-[#f59e0b] text-white rounded-xl font-semibold hover:opacity-90 transition-all mb-6">Start free trial</Link>
+              <ul className="space-y-3">{proFeatures.map((f) => <li key={f} className="flex items-start gap-3 text-[#b3b3b3] text-sm"><svg className="w-4 h-4 text-[#f59e0b] mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>{f}</li>)}</ul>
+            </div>
+          </div>
+          <h2 className="text-2xl font-bold text-white mb-6 text-center">Feature comparison</h2>
+          <div className="bg-[#111111] border border-[#1f1f1f] rounded-2xl overflow-hidden mb-16">
+            <div className="grid grid-cols-3 bg-[#1a1a1a] border-b border-[#1f1f1f]">
+              <div className="p-4 text-sm font-semibold text-[#b3b3b3]">Feature</div>
+              <div className="p-4 text-sm font-semibold text-white text-center">Starter</div>
+              <div className="p-4 text-sm font-semibold text-[#f59e0b] text-center">Pro</div>
+            </div>
+            {compRows.map((r) => (
+              <div key={r.feature} className="grid grid-cols-3 border-b border-[#1f1f1f] last:border-0 hover:bg-[#151515]">
+                <div className="p-4 text-sm text-[#b3b3b3]">{r.feature}</div>
+                <div className="p-4 text-center">
+                  {typeof r.starter === 'boolean' ? (r.starter ? <svg className="w-5 h-5 text-[#f59e0b] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg> : <svg className="w-5 h-5 text-[#555] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>) : <span className="text-sm text-[#b3b3b3]">{r.starter}</span>}
+                </div>
+                <div className="p-4 text-center">
+                  {typeof r.pro === 'boolean' ? (r.pro ? <svg className="w-5 h-5 text-[#f59e0b] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg> : <svg className="w-5 h-5 text-[#555] mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>) : <span className="text-sm text-[#f59e0b] font-medium">{r.pro}</span>}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="bg-[#111111] border border-[#1f1f1f] rounded-2xl p-6 mb-8 text-center">
+            <p className="text-[#b3b3b3] text-sm mb-2">vs the competition</p>
+            <div className="flex flex-wrap justify-center gap-8">
+              <div><p className="text-[#b3b3b3] text-sm">NiceJob</p><p className="text-2xl font-bold text-white">$75<span className="text-base text-[#b3b3b3]">/mo</span></p></div>
+              <div><p className="text-[#f59e0b] text-sm font-medium">ZiggyReviews</p><p className="text-2xl font-bold text-[#f59e0b]">$29<span className="text-base text-[#b3b3b3]">/mo</span></p></div>
+              <div><p className="text-[#b3b3b3] text-sm">Birdeye</p><p className="text-2xl font-bold text-white">$299<span className="text-base text-[#b3b3b3]">/mo</span></p></div>
+            </div>
+          </div>
+          <div className="max-w-2xl mx-auto space-y-3">
+            <h2 className="text-2xl font-bold text-white mb-6 text-center">Pricing FAQ</h2>
+            {faqs.map((faq, i) => (
+              <div key={i} className="bg-[#111111] border border-[#1f1f1f] rounded-2xl overflow-hidden">
+                <button className="w-full flex items-center justify-between p-6 text-left" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                  <span className="text-white font-semibold pr-4">{faq.q}</span>
+                  <svg className={`w-5 h-5 text-[#f59e0b] flex-shrink-0 transition-transform ${openFaq === i ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                {openFaq === i && <div className="px-6 pb-6"><p className="text-[#b3b3b3] leading-relaxed">{faq.a}</p></div>}
               </div>
             ))}
           </div>
         </div>
       </section>
-
-      {/* CTA */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-          Start your free trial today
-        </h2>
-        <p className="text-[#a1a1aa] text-lg mb-8">
-          14 days free. No credit card required. Full access to all features.
-        </p>
-        <Link
-          href="#"
-          className="inline-block bg-[#f59e0b] text-black font-bold text-lg px-10 py-4 rounded-xl hover:bg-amber-400 transition-colors"
-        >
-          Get Started Free →
-        </Link>
+      <section className="py-24 px-4 text-center">
+        <div className="max-w-2xl mx-auto">
+          <h2 className="text-4xl font-bold text-white mb-6">Start your free trial today</h2>
+          <p className="text-xl text-[#b3b3b3] mb-8">14 days free. No credit card required.</p>
+          <Link href="https://app.ziggyreviews.com/signup" className="inline-flex items-center gap-2 px-10 py-5 bg-[#f59e0b] text-white rounded-xl font-bold text-xl hover:opacity-90 transition-all">Start Free Trial</Link>
+        </div>
       </section>
-
-      <Footer />
-    </>
-  );
+      <MarketingFooter />
+    </div>
+  )
 }

@@ -1,89 +1,25 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from "next"
+import { Space_Grotesk } from "next/font/google"
+import "./globals.css"
+import { CookieBanner } from "@/app/components/CookieBanner"
+
+const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], weight: ["400","500","600","700"], variable: "--font-space-grotesk" })
 
 export const metadata: Metadata = {
-  title: {
-    default: "ZiggyReviews — Turn Happy Customers Into 5-Star Reviews",
-    template: "%s | ZiggyReviews",
-  },
-  description:
-    "ZiggyReviews automates Google review requests via email, SMS, and QR codes. Monitor every review, respond faster. $49/mo — 84% less than Birdeye.",
-  keywords: [
-    "review management software",
-    "google reviews automation",
-    "review request software",
-    "birdeye alternative",
-    "podium alternative",
-    "sms review requests",
-    "qr code reviews",
-    "reputation management",
-  ],
-  authors: [{ name: "ZiggyReviews" }],
-  creator: "ZiggyReviews",
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://ziggyreviews.com",
-    siteName: "ZiggyReviews",
-    title: "ZiggyReviews — Turn Happy Customers Into 5-Star Reviews",
-    description:
-      "Automate Google review requests via email, SMS, and QR code. Monitor every review, respond faster. $49/mo.",
-    images: [
-      {
-        url: "https://ziggyreviews.com/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "ZiggyReviews — Review Management",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "ZiggyReviews — Turn Happy Customers Into 5-Star Reviews",
-    description:
-      "Automate Google review requests. $49/mo vs Birdeye's $299/mo.",
-    images: ["https://ziggyreviews.com/og-image.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
+  title: { default: "ZiggyReviews — More 5-star reviews. Less chasing.", template: "%s | ZiggyReviews" },
+  description: "More 5-star reviews. Less chasing.. Part of the ZiggyTech Business Suite.",
+  openGraph: { title: "ZiggyReviews — More 5-star reviews. Less chasing.", description: "More 5-star reviews. Less chasing..", siteName: "ZiggyReviews", url: "https://ziggyreviews.com" },
+  icons: { icon: '/favicon.ico' },
   metadataBase: new URL("https://ziggyreviews.com"),
+}
 
-  icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
-  },
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="bg-bg text-white font-sans antialiased">{children}</body>
+    <html lang="en" className={spaceGrotesk.variable}>
+      <body className="bg-[#0a0a0a] text-white antialiased" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+        {children}
+        <CookieBanner />
+      </body>
     </html>
-  );
+  )
 }

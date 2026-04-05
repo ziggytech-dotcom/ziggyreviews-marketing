@@ -1,212 +1,64 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
+import Link from 'next/link'
+import { MarketingNav } from '@/app/components/Nav'
+import { MarketingFooter } from '@/app/components/Footer'
 
-export const metadata: Metadata = {
-  title: "Features — Review Collection, Monitoring & Analytics",
-  description:
-    "ZiggyReviews features: automated review requests, QR codes, SMS (Twilio BYOK), Google/Yelp/Facebook monitoring, response templates, and analytics. $49/mo.",
-};
-
-const featureSections = [
-  {
-    id: "collection",
-    badge: "Review Collection",
-    heading: "Get more reviews without lifting a finger",
-    sub: "Automated, multi-channel review requests that go out after every job — so you never have to ask awkwardly in person again.",
-    features: [
-      {
-        icon: "📧",
-        title: "Email Review Requests",
-        desc: "Send branded, personalized review request emails automatically after a job, purchase, or appointment. Customize timing — send 2 hours or 2 days after service.",
-      },
-      {
-        icon: "💬",
-        title: "SMS Review Requests (Twilio BYOK)",
-        desc: "Text converts 3× better than email. Connect your own Twilio number — no SMS markup, ever. Pay Twilio's rate directly. Smart sequences with one follow-up for non-openers.",
-      },
-      {
-        icon: "📱",
-        title: "QR Code Generator",
-        desc: "Generate branded, print-ready QR codes that link directly to your Google, Yelp, or Facebook review page. Print on receipts, truck doors, business cards, or counter cards.",
-      },
-      {
-        icon: "🤖",
-        title: "Smart Automation Rules",
-        desc: "Set rules to trigger requests based on job type, location, or customer segment. Never send a request to a customer with an open complaint.",
-      },
-      {
-        icon: "🎯",
-        title: "Review Funnel",
-        desc: "Internal satisfaction check before directing customers to public review pages. Happy customers go to Google — unhappy ones go to you first.",
-      },
-      {
-        icon: "🔗",
-        title: "Direct Review Links",
-        desc: "Generate one-click review links for any platform. Share via email, SMS, WhatsApp, or paste on your website.",
-      },
-    ],
-  },
-  {
-    id: "monitoring",
-    badge: "Monitoring & Response",
-    heading: "Never miss a review — respond in seconds",
-    sub: "Watch every review platform in one dashboard. Get instant alerts. Reply with templates. Build your reputation on autopilot.",
-    features: [
-      {
-        icon: "🔔",
-        title: "Real-Time Review Alerts",
-        desc: "Instant notifications via email or SMS the moment a new review lands on any platform. Never find out about a negative review days later.",
-      },
-      {
-        icon: "🌐",
-        title: "Multi-Platform Monitoring",
-        desc: "Monitor Google, Yelp, and Facebook from a single dashboard. See your star rating, review count, and recent reviews all in one place.",
-      },
-      {
-        icon: "⚡",
-        title: "Response Templates",
-        desc: "Pre-written, customizable response templates for 5-star, 4-star, and negative reviews. Respond in 10 seconds, not 10 minutes. Faster responses improve SEO.",
-      },
-      {
-        icon: "🖼️",
-        title: "Review Embed Widget",
-        desc: "Automatically embed your best reviews on your website. Set a minimum star threshold. The widget updates automatically as new reviews come in — no code changes needed.",
-      },
-      {
-        icon: "📊",
-        title: "Competitor Monitoring",
-        desc: "Track your competitor's review counts and ratings over time. Know when they're gaining on you and get ahead of it.",
-      },
-      {
-        icon: "🏷️",
-        title: "Review Tagging & Notes",
-        desc: "Tag reviews by type (positive, negative, service complaint) and add internal notes. Keep your team aligned on how to handle repeat issues.",
-      },
-    ],
-  },
-  {
-    id: "analytics",
-    badge: "Analytics & Reporting",
-    heading: "Know exactly what's driving your reputation",
-    sub: "Clear, actionable dashboards showing your review velocity, platform breakdown, and trends over time.",
-    features: [
-      {
-        icon: "📈",
-        title: "Review Velocity Dashboard",
-        desc: "See how many reviews you're getting per week and month, and how that compares to your goal. Track your progress toward owning your market.",
-      },
-      {
-        icon: "⭐",
-        title: "Star Rating Trends",
-        desc: "Watch your average star rating improve over time as ZiggyReviews brings in more positive reviews. Drill down by platform, location, or time period.",
-      },
-      {
-        icon: "📉",
-        title: "Conversion Analytics",
-        desc: "See your review request open rates, click rates, and conversion rates. Optimize your timing and messaging based on real data.",
-      },
-      {
-        icon: "📍",
-        title: "Multi-Location Support",
-        desc: "Manage multiple business locations from one account. Compare performance across locations and see which ones need the most attention.",
-      },
-      {
-        icon: "📋",
-        title: "Weekly Email Reports",
-        desc: "Get a concise weekly summary of your review performance delivered to your inbox. Forward it to your team or clients.",
-      },
-      {
-        icon: "🏆",
-        title: "Reputation Score",
-        desc: "Your ZiggyReviews reputation score combines star rating, review volume, response rate, and recency into one number. Track it over time.",
-      },
-    ],
-  },
-];
+const features = [
+  { title: `Automated Review Requests`, desc: `Send review requests automatically after a job is completed. Email and SMS touchpoints timed for maximum response rates.`, bullets: [`Automated email + SMS`, `Timing optimization`, `Custom message templates`, `Review funnel (happy path)`, `Unhappy path — private feedback`, `Follow-up sequences`] },
+  { title: `AI Response Suggestions`, desc: `ZiggyReviews drafts responses to every new review using AI. You review and publish in one click.`, bullets: [`AI response for Google`, `AI response for Yelp`, `Brand voice customization`, `One-click publish`, `Response library`, `Response analytics`] },
+  { title: `Multi-Platform Monitoring`, desc: `Monitor reviews across Google, Yelp, and Facebook from one dashboard. Get instant alerts on new reviews.`, bullets: [`Google Business monitoring`, `Yelp monitoring`, `Facebook monitoring`, `Instant alerts`, `Sentiment trend tracking`, `Rating history graphs`] },
+  { title: `NPS Surveys`, desc: `Send Net Promoter Score surveys to your customer base. Track NPS over time and convert promoters into public reviewers.`, bullets: [`NPS survey campaigns`, `Automated send sequences`, `Promoter identification`, `Detractor follow-up`, `NPS trend reporting`, `Survey export`] },
+  { title: `Competitor Tracking`, desc: `Monitor your top competitors' review ratings and volume across Google and Yelp.`, bullets: [`Competitor profile setup`, `Rating comparison dashboard`, `Volume trend charts`, `Review highlight tracking`, `Weekly reports`, `Alert on rating change`] },
+  { title: `Review Widgets`, desc: `Embed your best reviews on your website automatically. Widgets update in real time as new reviews come in.`, bullets: [`Website embed widgets`, `Carousel and grid layouts`, `Filter by star rating`, `Auto-update from Google/Yelp`, `Custom styling`, `Schema markup for SEO`] },
+]
 
 export default function FeaturesPage() {
   return (
-    <>
-      <Nav />
-
-      {/* Hero */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
-        <div className="inline-flex items-center gap-2 bg-[#18181b] border border-[#27272a] rounded-full px-4 py-1.5 text-sm mb-6">
-          <span className="text-[#f59e0b]">⚡</span>
-          <span className="text-[#a1a1aa]">All features included at $49/mo</span>
-        </div>
-        <h1 className="text-4xl sm:text-5xl font-bold mb-6">
-          Every tool to{" "}
-          <span style={{ color: "#f59e0b" }}>dominate local reviews</span>
-        </h1>
-        <p className="text-lg text-[#a1a1aa] max-w-2xl mx-auto mb-8">
-          ZiggyReviews gives you review collection, monitoring, response, and
-          analytics in one platform. No add-ons. No per-feature pricing.
-          Everything included at $49/mo.
-        </p>
-        <div className="flex items-center justify-center gap-4 flex-wrap text-sm">
-          <a href="#collection" className="text-[#f59e0b] hover:underline">Review Collection</a>
-          <span className="text-[#27272a]">·</span>
-          <a href="#monitoring" className="text-[#f59e0b] hover:underline">Monitoring & Response</a>
-          <span className="text-[#27272a]">·</span>
-          <a href="#analytics" className="text-[#f59e0b] hover:underline">Analytics & Reporting</a>
+    <div className="bg-[#0a0a0a] min-h-screen" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+      <MarketingNav />
+      <section className="relative overflow-hidden pt-20 pb-16 px-4">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#f59e0b]/8 rounded-full blur-3xl pointer-events-none" />
+        <div className="max-w-4xl mx-auto text-center relative">
+          <p className="text-xs font-semibold uppercase tracking-widest text-[#f59e0b] mb-4">Features</p>
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">Everything ZiggyReviews can do</h1>
+          <p className="text-xl text-[#b3b3b3] max-w-2xl mx-auto mb-8">Every feature explained. No fluff.</p>
+          <Link href="https://app.ziggyreviews.com/signup" className="inline-flex items-center gap-2 px-8 py-4 bg-[#f59e0b] text-white rounded-xl font-semibold text-lg hover:opacity-90 transition-all">
+            Start Free Trial — 14 days free
+          </Link>
         </div>
       </section>
-
-      {/* Feature Sections */}
-      {featureSections.map((section, si) => (
-        <section
-          key={section.id}
-          id={section.id}
-          className={`py-24 ${si % 2 === 1 ? "bg-[#18181b]/30" : ""}`}
-        >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-2 bg-[#18181b] border border-[#27272a] rounded-full px-3 py-1 text-xs text-[#f59e0b] font-semibold mb-4">
-                {section.badge}
+      <section className="py-16 px-4">
+        <div className="max-w-5xl mx-auto space-y-16">
+          {features.map((f, i) => (
+            <div key={f.title} className={`flex flex-col ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-12 items-start`}>
+              <div className="flex-1">
+                <h2 className="text-3xl font-bold text-white mb-4">{f.title}</h2>
+                <p className="text-lg text-[#b3b3b3] leading-relaxed mb-6">{f.desc}</p>
+                <ul className="space-y-2">
+                  {f.bullets.map((b) => (
+                    <li key={b} className="flex items-center gap-3 text-[#b3b3b3]">
+                      <div className="w-5 h-5 rounded-full bg-[#f59e0b]/20 border border-[#f59e0b]/40 flex items-center justify-center flex-shrink-0">
+                        <svg className="w-3 h-3 text-[#f59e0b]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
+                      </div>
+                      {b}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                {section.heading}
-              </h2>
-              <p className="text-[#a1a1aa] text-lg max-w-2xl mx-auto">
-                {section.sub}
-              </p>
+              <div className="flex-1 bg-[#111111] border border-[#1f1f1f] rounded-2xl aspect-video flex items-center justify-center">
+                <p className="text-[#555] text-sm">Screenshot coming soon</p>
+              </div>
             </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {section.features.map((f) => (
-                <div
-                  key={f.title}
-                  className="bg-[#18181b] border border-[#27272a] rounded-2xl p-6 hover:border-[#f59e0b]/40 transition-colors"
-                >
-                  <div className="text-3xl mb-4">{f.icon}</div>
-                  <h3 className="text-lg font-semibold mb-2">{f.title}</h3>
-                  <p className="text-[#a1a1aa] text-sm leading-relaxed">{f.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      ))}
-
-      {/* CTA */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-          Ready to get more reviews?
-        </h2>
-        <p className="text-[#a1a1aa] text-lg mb-8">
-          All features included. $49/mo. No contracts. Cancel anytime.
-        </p>
-        <Link
-          href="/pricing"
-          className="inline-block bg-[#f59e0b] text-black font-bold text-lg px-10 py-4 rounded-xl hover:bg-amber-400 transition-colors"
-        >
-          Start Free Trial →
-        </Link>
+          ))}
+        </div>
       </section>
-
-      <Footer />
-    </>
-  );
+      <section className="py-24 px-4 text-center">
+        <div className="max-w-2xl mx-auto">
+          <h2 className="text-4xl font-bold text-white mb-6">Ready to see it in action?</h2>
+          <p className="text-xl text-[#b3b3b3] mb-8">14-day free trial. No credit card required.</p>
+          <Link href="https://app.ziggyreviews.com/signup" className="inline-flex items-center gap-2 px-10 py-5 bg-[#f59e0b] text-white rounded-xl font-bold text-xl hover:opacity-90 transition-all">Start Free Trial</Link>
+        </div>
+      </section>
+      <MarketingFooter />
+    </div>
+  )
 }
