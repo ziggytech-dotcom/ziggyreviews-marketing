@@ -48,8 +48,7 @@ export default function HomePage() {
             ZiggyReviews — Review Management for local business
           </div>
           <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight tracking-tight mb-6">
-            More 5-star reviews.{' '}
-            {tagline.split('. ').length > 1 && <span className="text-[#f59e0b]">Less chasing.</span>}
+            More 5-star reviews. Less chasing.
           </h1>
           <p className="text-xl md:text-2xl text-[#b3b3b3] max-w-3xl mx-auto leading-relaxed mb-10">
             NiceJob charges $75/month. Birdeye wants $299. We built automated review requests, AI responses, and competitor monitoring for $29/mo.
